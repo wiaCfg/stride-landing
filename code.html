@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>StradeAI - AI-Powered Nutrition & WADA Compliance Tracker | Own Your Pace</title>
+    <meta name="description"
+        content="Own your pace with StradeAI. Track your nutrition, verify supplements, and stay WADA-compliant with our AI-powered Telegram bot. Get instant meal analysis and supplement verification." />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "primary-dark": "#2563eb",
+                        "background-light": "#ffffff",
+                        "background-dark": "#0f172a",
+                        accent: "#10b981",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-in',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Gradient backgrounds */
+        .gradient-blue {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Hover effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        /* Dark mode scrollbar */
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        /* Logo styles */
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-icon-large {
+            width: 48px;
+            height: 48px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-background-dark dark:via-slate-900 dark:to-background-dark font-display antialiased">
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Running figure with dynamic path -->
+                        <path d="M 30 20 Q 35 15 40 20 Q 35 25 30 20 Z" fill="url(#logoGradient)" />
+                        <path d="M 35 25 L 35 50 L 25 70 M 35 50 L 45 70 M 35 35 L 50 30 M 35 35 L 20 40"
+                            stroke="url(#logoGradient)" stroke-width="4" stroke-linecap="round" fill="none" />
+                        <!-- Speed lines -->
+                        <line x1="60" y1="30" x2="75" y2="25" stroke="url(#logoGradient)" stroke-width="3"
+                            stroke-linecap="round" opacity="0.7" />
+                        <line x1="60" y1="45" x2="80" y2="42" stroke="url(#logoGradient)" stroke-width="3"
+                            stroke-linecap="round" opacity="0.5" />
+                        <line x1="55" y1="60" x2="75" y2="58" stroke="url(#logoGradient)" stroke-width="3"
+                            stroke-linecap="round" opacity="0.4" />
+                    </svg>
+                    <div class="flex flex-col">
+                        <span class="text-lg font-bold text-slate-900 dark:text-white leading-none">StradeAI</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 italic leading-none">own your
+                            pace</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#features"
+                        class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">Features</a>
+                    <!-- <a href="#how-it-works"
+                        class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">How
+                        It Works</a> -->
+                    <a href="#testimonials"
+                        class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">Testimonials</a>
+                    <a href="#roadmap"
+                        class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">Roadmap</a>
+                    <a href="#faq"
+                        class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors">FAQ</a>
+                    <!-- <a href="#"
+                        class="px-4 py-2 bg-primary hover:bg-primary-dark text-white text-sm font-semibold rounded-lg transition-all hover:scale-105">
+                        Get Started
+                    </a> -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mx-auto max-w-7xl pt-20">
+        <main class="px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Hero Section -->
+            <header class="text-center max-w-4xl mx-auto mb-16 animate-fade-in">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    </span>
+                    <span class="text-sm font-semibold text-blue-700 dark:text-blue-300">Now Available on
+                        Telegram</span>
+                </div>
+                <h1
+                    class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+                    Track Your Nutrition,<br />
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Verify
+                        Supplements</span>,<br />
+                    Stay WADA-Compliant
+                </h1>
+                <p class="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+                    Your personal AI nutritionist on Telegram. Snap a photo of your meal or supplement, and get instant,
+                    accurate insights powered by advanced AI technology. <strong
+                        class="text-blue-600 dark:text-blue-400">Own your pace</strong> with intelligent nutrition
+                    tracking.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a class="flex w-full sm:w-auto items-center justify-center gap-2 sm:gap-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                        href="https://t.me/StrideAiBot" target="_blank" rel="noopener noreferrer">
+                        <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.67-.52.36-.99.53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.48 1.02-.73 3.98-1.74 6.64-2.89 7.98-3.45 3.79-1.58 4.58-1.85 5.09-1.86.11 0 .37.03.54.17.14.12.18.28.2.44.02.12.04.35.02.54z" />
+                        </svg>
+                        Start Free on Telegram
+                    </a>
+                    <!-- <a class="flex items-center justify-center gap-2 text-sm sm:text-base font-semibold text-primary hover:text-primary-dark transition-all hover:gap-3"
+                        href="#">
+                        <span class="material-symbols-outlined text-xl sm:text-2xl">play_circle</span>
+                        Watch Demo (2 min)
+                    </a> -->
+                </div>
+
+                <!-- Trust Indicators -->
+                <div
+                    class="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-slate-600 dark:text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-green-500">verified</span>
+                        <span>WADA Verified</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-green-500">lock</span>
+                        <span>Encrypted & Private</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-green-500">trending_up</span>
+                        <span>100k+ Meals Analyzed</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Demo Section with Phone Mockup -->
+            <div class="relative max-w-6xl mx-auto mb-24">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Phone Mockup -->
+                    <!-- Phone Mockup -->
+                    <div class="relative lg:order-2 flex justify-center">
+                        <div class="relative animate-float">
+                            <div
+                                class="relative mx-auto h-[550px] w-[270px] rounded-[40px] border-[10px] border-slate-800 bg-slate-800 shadow-2xl dark:border-slate-700">
+                                <div
+                                    class="absolute left-1/2 top-0 z-10 h-7 w-32 -translate-x-1/2 rounded-b-xl bg-slate-800 dark:bg-slate-700">
+                                </div>
+                                <div
+                                    class="absolute inset-0 h-full w-full overflow-hidden rounded-[30px] bg-[#dde7ee] dark:bg-slate-800">
+                                    <div
+                                        class="absolute inset-0 z-0 h-full w-full bg-[url('https://chpic.su/_data/stickers/t/TelegramDefaults/TelegramDefaults_001.webp')] bg-contain opacity-20 dark:opacity-5">
+                                    </div>
+                                    <div class="relative z-10 flex h-full flex-col p-2">
+                                        <div
+                                            class="mb-2 mt-6 max-w-[85%] self-start rounded-lg rounded-bl-sm bg-white p-2 text-sm shadow-sm dark:bg-slate-700">
+                                            <p class="font-semibold text-[12px] text-blue-500 dark:text-blue-400">
+                                                Welcome to
+                                                Nutrition Mode!</p>
+                                            <p class="text-slate-800 dark:text-slate-200">
+                                                <span class="font-semibold">Auto-detect:</span> 📸 photo • 🎤 voice • ⌨️
+                                                text<br />
+                                                <span class="font-semibold">Manual entry:</span> Tap the button below
+                                            </p>
+                                        </div>
+                                        <div class="relative mb-1 self-end">
+                                            <img alt="A plate of sliced steak with rosemary garnish"
+                                                class="w-48 rounded-lg shadow-md"
+                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY0aHhCLG0gKOmxzDj4z-ubsrtYZHGUUCpqBFl2W0tSbAZKouLgye_UfDVhJRimButmw-gXg-rzgCQiljtWYmuxU9tr6Ttg1vJoJ3ibuJ39meYqUp3KVrhwJsFTRkqA1CiqtO4Wdp7byB3vcILOGslmYQXygGQGL25htWie_jI6QqY0xJ6tSW6fELI74WT6Pf9ihy9d3-NSEbMtFLlii2sh2edgvL_lKhQ1dZz22yKMfFGjrV9qZHj3p-o-KmxWLj1tVY3EIXRsvdR" />
+                                        </div>
+                                        <div
+                                            class="mb-2 max-w-[85%] self-start rounded-lg rounded-bl-sm bg-white p-2 text-sm text-slate-500 shadow-sm dark:bg-slate-700 dark:text-slate-400">
+                                            <p>⏳ Let me think...</p>
+                                        </div>
+                                        <div
+                                            class="mb-2 max-w-[85%] self-start rounded-lg rounded-bl-sm bg-white p-2 shadow-sm dark:bg-slate-700">
+                                            <div
+                                                class="mb-1 flex items-center gap-1.5 border-b border-slate-200 pb-1 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:text-slate-200">
+                                                <span class="material-symbols-outlined text-base">restaurant</span>
+                                                <span>Meal Report:</span>
+                                            </div>
+                                            <code
+                                                class="whitespace-pre-wrap text-xs text-slate-600 dark:text-slate-300">🔥 Calories : 772 kcal
+💪 Protein  : 103.7 g
+🥑 Fat      : 40.8 g
+🍞 Carbs    : 1 g</code>
+                                        </div>
+                                        <div class="mt-auto"></div>
+                                        <div
+                                            class="flex items-center rounded-full bg-white p-1 text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+                                            <span class="material-symbols-outlined">menu</span>
+                                            <p class="ml-2 flex-grow text-sm">Message</p>
+                                            <span class="material-symbols-outlined">attach_file</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Highlights -->
+                    <div class="lg:order-1 space-y-4 sm:space-y-6">
+                        <div class="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover-lift">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div
+                                    class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400">
+                                    <span class="material-symbols-outlined text-xl sm:text-2xl">camera_alt</span>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Instant Photo
+                                    Analysis</h3>
+                            </div>
+                            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400">Advanced AI recognizes
+                                food items and
+                                calculates precise macros in seconds.</p>
+                        </div>
+
+                        <div class="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover-lift">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div
+                                    class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400">
+                                    <span class="material-symbols-outlined text-xl sm:text-2xl">verified_user</span>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">WADA
+                                    Compliance Check</h3>
+                            </div>
+                            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400">Verify supplements
+                                against the
+                                official prohibited list to stay competition-ready.</p>
+                        </div>
+
+                        <div class="p-4 sm:p-6 bg-white dark:bg-slate-800 rounded-xl shadow-lg hover-lift">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div
+                                    class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-lg bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400">
+                                    <span class="material-symbols-outlined text-xl sm:text-2xl">psychology</span>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Smart Tracking
+                                    & Insights</h3>
+                            </div>
+                            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400">Get personalized
+                                recommendations
+                                based on your nutrition patterns and goals.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- How It Works Section -->
+            <!-- <section class="mt-24 mb-24" id="how-it-works">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Simple.
+                        Fast. Accurate.</h2>
+                    <p class="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Get started in three
+                        easy steps and transform how you track nutrition</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
+                    <div
+                        class="flex flex-col items-center text-center hover-lift p-6 rounded-xl bg-white dark:bg-slate-800 shadow-lg">
+                        <div class="relative">
+                            <div
+                                class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg">
+                                <span class="material-symbols-outlined text-3xl">photo_camera</span>
+                            </div>
+                            <div
+                                class="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 font-bold text-sm">
+                                1</div>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-slate-900 dark:text-white">Send a Photo</h3>
+                        <p class="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed">Snap a picture of your meal
+                            or supplement label and send it to the bot. Works with voice and text too!</p>
+                        <div
+                            class="mt-6 w-full rounded-lg border-2 border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+                            <img alt="User sending a food photo on a phone" class="rounded-lg w-full"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY0aHhCLG0gKOmxzDj4z-ubsrtYZHGUUCpqBFl2W0tSbAZKouLgye_UfDVhJRimButmw-gXg-rzgCQiljtWYmuxU9tr6Ttg1vJoJ3ibuJ39meYqUp3KVrhwJsFTRkqA1CiqtO4Wdp7byB3vcILOGslmYQXygGQGL25htWie_jI6QqY0xJ6tSW6fELI74WT6Pf9ihy9d3-NSEbMtFLlii2sh2edgvL_lKhQ1dZz22yKMfFGjrV9qZHj3p-o-KmxWLj1tVY3EIXRsvdR" />
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col items-center text-center hover-lift p-6 rounded-xl bg-white dark:bg-slate-800 shadow-lg">
+                        <div class="relative">
+                            <div
+                                class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg">
+                                <span class="material-symbols-outlined text-3xl">auto_awesome</span>
+                            </div>
+                            <div
+                                class="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 font-bold text-sm">
+                                2</div>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-slate-900 dark:text-white">Get Instant Analysis</h3>
+                        <p class="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed">Our advanced AI analyzes the
+                            image and provides detailed nutrition breakdown in seconds with high accuracy.</p>
+                        <div
+                            class="mt-6 w-full rounded-lg border-2 border-slate-200 bg-slate-50 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800/50">
+                            <div class="rounded-lg bg-white p-3 dark:bg-slate-700 shadow-md">
+                                <div
+                                    class="mb-2 flex items-center gap-2 border-b border-slate-200 pb-2 text-left text-sm font-bold text-slate-800 dark:border-slate-600 dark:text-slate-200">
+                                    <span class="material-symbols-outlined text-lg">restaurant</span>
+                                    <span>Nutrition Report</span>
+                                </div>
+                                <code
+                                    class="whitespace-pre-wrap text-left text-sm text-slate-600 dark:text-slate-300 leading-relaxed">🔥 Calories : 772 kcal
+💪 Protein  : 103.7 g
+🥑 Fat      : 40.8 g
+🍞 Carbs    : 1 g</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col items-center text-center hover-lift p-6 rounded-xl bg-white dark:bg-slate-800 shadow-lg">
+                        <div class="relative">
+                            <div
+                                class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg">
+                                <span class="material-symbols-outlined text-3xl">trending_up</span>
+                            </div>
+                            <div
+                                class="absolute -top-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 font-bold text-sm">
+                                3</div>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-slate-900 dark:text-white">Track & Improve</h3>
+                        <p class="mt-3 text-slate-600 dark:text-slate-400 leading-relaxed">Monitor your progress over
+                            time with intuitive dashboards and receive personalized insights.</p>
+                        <div
+                            class="mt-6 w-full rounded-lg border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-blue-50 p-4 shadow-sm dark:border-slate-700 dark:from-slate-800/50 dark:to-slate-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-bold text-slate-800 dark:text-white">Weekly Summary</h4>
+                                <span
+                                    class="text-xs text-blue-600 dark:text-blue-400 font-semibold cursor-pointer hover:underline">View
+                                    Details →</span>
+                            </div>
+                            <div class="mb-4 h-3 w-full rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                                <div
+                                    class="h-3 w-4/5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 shadow-md">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3 text-left">
+                                <div class="bg-white dark:bg-slate-700 p-2 rounded-lg">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Calories</p>
+                                    <p class="text-lg font-bold text-slate-800 dark:text-slate-200">2,850</p>
+                                </div>
+                                <div class="bg-white dark:bg-slate-700 p-2 rounded-lg">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Protein</p>
+                                    <p class="text-lg font-bold text-slate-800 dark:text-slate-200">180g</p>
+                                </div>
+                                <div class="bg-white dark:bg-slate-700 p-2 rounded-lg">
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Carbs</p>
+                                    <p class="text-lg font-bold text-slate-800 dark:text-slate-200">320g</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+            <!-- Features Section -->
+            <section class="mt-24 mb-24 bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-8 lg:p-12 shadow-xl"
+                id="features">
+                <div class="text-center mb-12 sm:mb-16">
+                    <h2
+                        class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        Everything
+                        You Need in One Bot</h2>
+                    <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        Comprehensive nutrition
+                        tracking and supplement verification tools at your fingertips</p>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                    <div
+                        class="rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800 p-6 sm:p-8 hover-lift border-2 border-blue-200 dark:border-blue-900">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-2xl sm:text-3xl text-white shadow-lg">
+                                🥗</div>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Nutrition Tracker
+                            </h3>
+                        </div>
+                        <ul class="space-y-2 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>AI-powered meal analysis from photos with 95%+ accuracy</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Barcode scanning for packaged foods and supplements</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Manual entry for custom meals and recipes</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Voice input support for hands-free logging</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="rounded-2xl bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-900 dark:to-slate-800 p-6 sm:p-8 hover-lift border-2 border-green-200 dark:border-green-900">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-green-500 to-green-600 text-2xl sm:text-3xl text-white shadow-lg">
+                                💊</div>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Supplement &
+                                Medicine Check</h3>
+                        </div>
+                        <ul class="space-y-2 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>WADA compliance verification for athletes</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Check for potential drug interactions</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Dosage tracking and safety information</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Ingredient analysis and allergy alerts</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-900 dark:to-slate-800 p-6 sm:p-8 hover-lift border-2 border-purple-200 dark:border-purple-900">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 text-2xl sm:text-3xl text-white shadow-lg">
+                                ⏰</div>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Smart Reminders</h3>
+                        </div>
+                        <ul class="space-y-2 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Personalized hydration and mealtime alerts</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Supplement and medication schedules</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Customizable workout and training reminders</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Goal milestone notifications and achievements</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div
+                        class="rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-slate-900 dark:to-slate-800 p-6 sm:p-8 hover-lift border-2 border-orange-200 dark:border-orange-900">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 text-2xl sm:text-3xl text-white shadow-lg">
+                                📊</div>
+                            <h3 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Dashboard &
+                                Analytics</h3>
+                        </div>
+                        <ul class="space-y-2 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Daily, weekly, and monthly progress reports</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Track macro & micronutrient intake trends</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Exportable data for coaches or dietitians</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-green-500 mt-1 shrink-0">✓</span>
+                                <span>Visual charts and performance insights</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <!-- Testimonials Section -->
+            <section class="mt-24 mb-24" id="testimonials">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Trusted by
+                        Athletes Worldwide</h2>
+                    <p class="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Join thousands of
+                        professionals who trust StradeAI</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div
+                        class="rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-xl hover-lift border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-start gap-1 mb-4">
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                        </div>
+                        <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">"The accuracy of the
+                            nutrition breakdown is insane. I just send a photo and get instant macros. It's a
+                            game-changer for my meal prep and has helped me optimize my performance significantly."</p>
+                        <div class="flex items-center gap-4">
+                            <img alt="Photo of Alex Morgan"
+                                class="h-14 w-14 rounded-full object-cover ring-4 ring-blue-100 dark:ring-blue-900"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGzgWio_0ywT96CiJS3cKqyyJK-09DSEt7Thhiw7DWeYh2lvSpfNfcfWtinWYlxKEJJrPE14xRKfjkUF9AlyG8VE2oOY-B7cjXnkxPE-oxol6XAzYVIZgeV9IHKqqmIlZ9AEvyKzFokBeUz1OQmLUjK5c1ZVjwhmmN1mAK9iybCtuSSA2AgNStavzKmT2MHIJ8mvbryyjYxpm5LhpaeKrO-hXQ8GOft07wubHd9N6QhQZqsGcPgu0O9yD3j8IJx5npNcPa2rbeUXaa" />
+                            <div>
+                                <p class="font-bold text-slate-900 dark:text-white text-lg">Alex Morgan</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Professional Cyclist</p>
+                                <p class="text-xs text-blue-600 dark:text-blue-400 mt-1">🏆 Olympic Medalist</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-xl hover-lift border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-start gap-1 mb-4">
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                            <span class="text-yellow-400 text-xl">⭐</span>
+                        </div>
+                        <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">"Checking if my
+                            supplements are WADA-compliant used to be a chore. Now it's as simple as sending a message.
+                            Incredibly convenient, reliable, and gives me peace of mind before competitions."</p>
+                        <div class="flex items-center gap-4">
+                            <img alt="Photo of Sam Kerr"
+                                class="h-14 w-14 rounded-full object-cover ring-4 ring-green-100 dark:ring-green-900"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGn5a9cE9Lk4_B1p9Kz0Jqh5tWvGexxvIUFbH3epHOWoC71cOWRqOFuFMR2OW-lCCi7OO24x3afWW7OyMgFmoO0MQDs7eu4pVeoJ9MtyHCarUo_tpLzQXXfRy8BfKYlPumYzXB3g-b__ekHOWvSee9B_U0jEsTQuvYlEb8A54CXgVWyro0sDyYhKTBxqr3egFK4ZahLPTzHmdMsMlcI_SkSJXz-dcSaC3mWlbZD1g_o1gKe7o90f0LN2YlgDDkI5arOqpfFyOnOI9m" />
+                            <div>
+                                <p class="font-bold text-slate-900 dark:text-white text-lg">Sam Kerr</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Marathon Runner</p>
+                                <p class="text-xs text-green-600 dark:text-green-400 mt-1">🏃 World Champion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div
+                    class="grid md:grid-cols-4 gap-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white shadow-xl">
+                    <div class="text-center">
+                        <p class="text-4xl lg:text-5xl font-extrabold mb-2">100K+</p>
+                        <p class="text-blue-100 font-medium">Meals Analyzed</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-4xl lg:text-5xl font-extrabold mb-2">50K+</p>
+                        <p class="text-blue-100 font-medium">Supplements Checked</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-4xl lg:text-5xl font-extrabold mb-2">95%+</p>
+                        <p class="text-blue-100 font-medium">Accuracy Rate</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-4xl lg:text-5xl font-extrabold mb-2">24/7</p>
+                        <p class="text-blue-100 font-medium">Available Support</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Roadmap Section -->
+            <section class="mt-24 mb-24" id="roadmap">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Join Us on
+                        Our Journey</h2>
+                    <p class="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">We're constantly
+                        evolving to bring you the best nutrition tracking experience</p>
+                </div>
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative pl-12 md:pl-12">
+                        <div
+                            class="absolute left-6 md:left-6 top-4 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-slate-300 dark:to-slate-700">
+                        </div>
+
+                        <div class="relative mb-12">
+                            <div
+                                class="absolute -left-[2.7rem] md:-left-[2.7rem] top-1 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 ring-8 ring-white dark:ring-slate-900 shadow-lg">
+                                <span class="material-symbols-outlined text-lg text-white">check_circle</span>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover-lift border-2 border-blue-200 dark:border-blue-900 ml-2">
+                                <p
+                                    class="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-2">
+                                    ✅ Available Now (November 2025)</p>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Telegram Bot</h3>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Instant meal & supplement
+                                    analysis directly in your favorite messenger. Free to use with premium features
+                                    coming soon.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative mb-12">
+                            <div
+                                class="absolute -left-[2.7rem] md:-left-[2.7rem] top-1 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-purple-600 ring-8 ring-white dark:ring-slate-900 shadow-lg">
+                                <span class="material-symbols-outlined text-lg text-white">pending</span>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700 ml-2">
+                                <p
+                                    class="text-sm font-semibold uppercase tracking-wider text-purple-600 dark:text-purple-400 mb-2">
+                                    🚀 Coming Q1 2026</p>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Telegram Mini App</h3>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Interactive dashboard,
+                                    advanced progress tracking, and personalized insights within Telegram. Enhanced
+                                    visualizations and goal setting.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative mb-12">
+                            <div
+                                class="absolute -left-[2.7rem] md:-left-[2.7rem] top-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-300 ring-8 ring-white dark:bg-slate-700 dark:ring-slate-900 shadow-lg">
+                                <span
+                                    class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-400">schedule</span>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700 ml-2">
+                                <p
+                                    class="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+                                    📱 Q2-Q3 2026</p>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">iOS App</h3>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Native iOS experience with
+                                    enhanced features, Apple Health integration, and seamless device sync.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative mb-12">
+                            <div
+                                class="absolute -left-[2.7rem] md:-left-[2.7rem] top-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-300 ring-8 ring-white dark:bg-slate-700 dark:ring-slate-900 shadow-lg">
+                                <span
+                                    class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-400">schedule</span>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700 ml-2">
+                                <p
+                                    class="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+                                    🤖 Q3-Q4 2026</p>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Android App</h3>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">Bringing the full power of
+                                    StradeAI to Android users with Google Fit integration.</p>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <div
+                                class="absolute -left-[2.7rem] md:-left-[2.7rem] top-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-300 ring-8 ring-white dark:bg-slate-700 dark:ring-slate-900 shadow-lg">
+                                <span
+                                    class="material-symbols-outlined text-lg text-slate-600 dark:text-slate-400">stars</span>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700 ml-2">
+                                <p
+                                    class="text-sm font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
+                                    ✨ 2027 & Beyond</p>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Advanced Features</h3>
+                                <p class="text-slate-600 dark:text-slate-400 leading-relaxed">AI-powered meal planning,
+                                    deeper performance analytics, integration with fitness trackers, and community
+                                    features.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FAQ Section -->
+            <section class="mt-24 mb-24" id="faq">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Frequently
+                        Asked Questions</h2>
+                    <p class="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Everything you need to
+                        know about StradeAI</p>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <details
+                        class="group rounded-xl bg-white dark:bg-slate-800 p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white pr-4">Is it really free?</h3>
+                            <div class="text-slate-500 shrink-0">
+                                <span
+                                    class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-2xl">expand_more</span>
+                            </div>
+                        </summary>
+                        <div
+                            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p>Yes! The core features of StradeAI are completely free to use. We believe
+                                everyone should have access to reliable nutrition information. We may introduce premium
+                                features in the future with advanced analytics and personalized coaching, but the
+                                essential tools will always remain free.</p>
+                        </div>
+                    </details>
+
+                    <details
+                        class="group rounded-xl bg-white dark:bg-slate-800 p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white pr-4">Which languages are
+                                supported?</h3>
+                            <div class="text-slate-500 shrink-0">
+                                <span
+                                    class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-2xl">expand_more</span>
+                            </div>
+                        </summary>
+                        <div
+                            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p>Currently, the bot supports English, Spanish, and French with high accuracy. We are
+                                actively working on adding more languages including German, Portuguese, Italian,
+                                Russian, and Chinese. Language expansion is a top priority for Q1 2026.</p>
+                        </div>
+                    </details>
+
+                    <details
+                        class="group rounded-xl bg-white dark:bg-slate-800 p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white pr-4">How accurate is the
+                                nutrition data?</h3>
+                            <div class="text-slate-500 shrink-0">
+                                <span
+                                    class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-2xl">expand_more</span>
+                            </div>
+                        </summary>
+                        <div
+                            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p>Our AI is trained on an extensive database of over 1 million food items and leverages
+                                data from verified nutritional sources including USDA and international food databases.
+                                We achieve 95%+ accuracy in most cases. While we strive for precision, the analysis
+                                should be considered a close estimate. For medical or competition purposes, always
+                                consult a registered dietitian.</p>
+                        </div>
+                    </details>
+
+                    <details
+                        class="group rounded-xl bg-white dark:bg-slate-800 p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white pr-4">Is my data private and
+                                secure?</h3>
+                            <div class="text-slate-500 shrink-0">
+                                <span
+                                    class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-2xl">expand_more</span>
+                            </div>
+                        </summary>
+                        <div
+                            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p>Absolutely. Your privacy is our top priority. All data is encrypted end-to-end using
+                                industry-standard protocols. Personal information is anonymized and stored securely. We
+                                never share your data with third parties or use it for advertising. You have full
+                                control and can delete your data at any time from the settings menu.</p>
+                        </div>
+                    </details>
+
+                    <details
+                        class="group rounded-xl bg-white dark:bg-slate-800 p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white pr-4">What is WADA compliance?
+                            </h3>
+                            <div class="text-slate-500 shrink-0">
+                                <span
+                                    class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-2xl">expand_more</span>
+                            </div>
+                        </summary>
+                        <div
+                            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p>WADA stands for the World Anti-Doping Agency. Our supplement verification feature
+                                cross-references ingredients against the official WADA Prohibited List to help athletes
+                                ensure their supplements don't contain banned substances. This is crucial for
+                                professional and competitive athletes who undergo drug testing. We update our database
+                                regularly to reflect the latest WADA regulations.</p>
+                        </div>
+                    </details>
+
+                    <details
+                        class="group rounded-xl bg-white dark:bg-slate-800 p-6 shadow-lg hover-lift border border-slate-200 dark:border-slate-700">
+                        <summary class="flex cursor-pointer list-none items-center justify-between">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white pr-4">Can I use this for weight
+                                loss or muscle gain?</h3>
+                            <div class="text-slate-500 shrink-0">
+                                <span
+                                    class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-2xl">expand_more</span>
+                            </div>
+                        </summary>
+                        <div
+                            class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p>Yes! StradeAI is perfect for any fitness goal. Whether you're looking to lose
+                                weight, build muscle, improve athletic performance, or simply maintain a healthy diet,
+                                our tracking and insights will help you stay on track. You can set custom goals and
+                                receive personalized recommendations based on your targets.</p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+            <!-- CTA Section -->
+            <div
+                class="mt-24 mb-16 text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 lg:p-16 text-white shadow-2xl">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6">Ready to Transform Your Nutrition?</h2>
+                <p class="text-lg sm:text-xl mb-8 text-blue-100 max-w-2xl mx-auto">Join thousands of athletes and health
+                    enthusiasts using StradeAI to achieve their goals</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+                    <a class="flex w-full sm:w-auto items-center justify-center gap-2 sm:gap-3 rounded-lg bg-white hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-bold text-blue-600 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                        href="https://t.me/StrideAiBot" target="_blank" rel="noopener noreferrer">
+                        <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.67-.52.36-.99.53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.48 1.02-.73 3.98-1.74 6.64-2.89 7.98-3.45 3.79-1.58 4.58-1.85 5.09-1.86.11 0 .37.03.54.17.14.12.18.28.2.44.02.12.04.35.02.54z" />
+                        </svg>
+                        Start Free on Telegram
+                    </a>
+                    <a class="flex items-center justify-center gap-2 text-sm sm:text-base font-bold text-white hover:text-blue-100 transition-all"
+                        href="#">
+                        <span class="material-symbols-outlined text-xl sm:text-2xl">contact_support</span>
+                        Contact Support
+                    </a>
+                </div>
+
+                <!-- QR Code -->
+                <div class="flex flex-col items-center justify-center mt-12 px-4">
+                    <p class="text-sm sm:text-base font-bold text-white mb-6">Or scan QR code to start instantly</p>
+                    <div class="relative group w-full max-w-xs sm:max-w-sm mx-auto">
+                        <div
+                            class="absolute -inset-3 sm:-inset-6 bg-white/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-300">
+                        </div>
+                        <div
+                            class="relative rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-8 shadow-2xl transform group-hover:scale-105 transition-all duration-300">
+                            <img alt="QR code to open @StrideAiBot on Telegram"
+                                class="w-full h-auto max-w-[200px] sm:max-w-[256px] md:max-w-[320px] mx-auto"
+                                src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://t.me/StrideAiBot" />
+                            <div class="mt-4 sm:mt-6 text-center">
+                                <p class="text-base sm:text-lg font-bold text-slate-900">@StrideAiBot</p>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-2">Scan with your phone camera</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://t.me/StrideAiBot" target="_blank" rel="noopener noreferrer"
+                        class="mt-6 sm:mt-8 inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white/10 hover:bg-white/20 border-2 border-white/30 rounded-xl text-white text-base sm:text-lg font-semibold transition-all hover:scale-105 shadow-lg">
+                        <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.67-.52.36-.99.53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.48 1.02-.73 3.98-1.74 6.64-2.89 7.98-3.45 3.79-1.58 4.58-1.85 5.09-1.86.11 0 .37.03.54.17.14.12.18.28.2.44.02.12.04.35.02.54z" />
+                        </svg>
+                        Open in Telegram
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 mt-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg class="logo-icon-large" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="logoGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M 30 20 Q 35 15 40 20 Q 35 25 30 20 Z" fill="url(#logoGradientFooter)" />
+                                <path d="M 35 25 L 35 50 L 25 70 M 35 50 L 45 70 M 35 35 L 50 30 M 35 35 L 20 40"
+                                    stroke="url(#logoGradientFooter)" stroke-width="4" stroke-linecap="round"
+                                    fill="none" />
+                                <line x1="60" y1="30" x2="75" y2="25" stroke="url(#logoGradientFooter)" stroke-width="3"
+                                    stroke-linecap="round" opacity="0.7" />
+                                <line x1="60" y1="45" x2="80" y2="42" stroke="url(#logoGradientFooter)" stroke-width="3"
+                                    stroke-linecap="round" opacity="0.5" />
+                                <line x1="55" y1="60" x2="75" y2="58" stroke="url(#logoGradientFooter)" stroke-width="3"
+                                    stroke-linecap="round" opacity="0.4" />
+                            </svg>
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-lg font-bold text-slate-900 dark:text-white leading-none">StradeAI</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400 italic leading-none">own your
+                                    pace</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4 max-w-md">Your personal AI nutritionist on
+                            Telegram. Track meals, verify supplements, and achieve your health goals with confidence.
+                            Own your pace.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-slate-400 hover:text-blue-500 transition-colors">
+                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-slate-400 hover:text-blue-500 transition-colors">
+                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22.46 6c-.85.38-1.78.64-2.75.76 1-.6 1.76-1.55 2.12-2.68-.93.55-1.96.95-3.06 1.17-.88-.94-2.13-1.53-3.51-1.53-2.66 0-4.82 2.16-4.82 4.82 0 .38.04.75.13 1.1-4-.2-7.55-2.12-9.92-5.04-.42.72-.66 1.55-.66 2.44 0 1.67.85 3.15 2.14 4.01-.79-.03-1.53-.24-2.18-.6v.06c0 2.34 1.66 4.29 3.87 4.73-.4.11-.83.17-1.27.17-.31 0-.62-.03-.92-.08.62 1.94 2.43 3.36 4.57 3.4-1.67 1.31-3.78 2.09-6.07 2.09-.39 0-.78-.02-1.17-.07 2.18 1.4 4.77 2.21 7.55 2.21 9.06 0 14-7.5 14-14 0-.21 0-.42-.02-.63.96-.69 1.8-1.56 2.46-2.55z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-slate-400 hover:text-blue-500 transition-colors">
+                                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm-1-7.9c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3zM19 17h-2v-3.4c0-1.5-.8-1.9-1.3-1.9s-1.5.4-1.5 1.9V17h-2v-7h2v1c.3-.6 1-1 2-1 1.3 0 2.8.8 2.8 3.6V17z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Product</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#features"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">Features</a>
+                            </li>
+                            <li><a href="#how-it-works"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">How
+                                    It Works</a></li>
+                            <li><a href="#roadmap"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">Roadmap</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">Pricing</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-4">Support</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#faq"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">FAQ</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">Documentation</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">Contact
+                                    Us</a></li>
+                            <li><a href="#"
+                                    class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">Privacy
+                                    Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div
+                    class="border-t border-slate-200 dark:border-slate-800 mt-8 pt-8 text-center text-sm text-slate-600 dark:text-slate-400">
+                    <p>&copy; 2025 StradeAI. All rights reserved. Made with ❤️ for athletes and health
+                        enthusiasts.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
